@@ -1,0 +1,75 @@
+package dev.froyln.dropitems.event;
+
+import java.util.List;
+
+import com.google.common.collect.ImmutableList;
+
+import net.minecraft.client.MinecraftClient;
+
+import fi.dy.masa.malilib.hotkeys.IHotkey;
+import fi.dy.masa.malilib.hotkeys.IKeybindManager;
+import fi.dy.masa.malilib.hotkeys.IKeybindProvider;
+
+import dev.froyln.dropitems.Reference;
+import dev.froyln.dropitems.config.Configs;
+import dev.froyln.dropitems.config.FeatureToggle;
+import dev.froyln.dropitems.config.GuiConfigs;
+import dev.froyln.dropitems.tweaks.DropHandler;
+
+public class InputHandler implements IKeybindProvider
+{
+    private static final InputHandler INSTANCE = new InputHandler();
+
+    public InputHandler()
+    {
+        Configs.OPEN_CONFIGS.getKeybind().setCallback((action, key) -> {
+            MinecraftClient.getInstance().setScreen(new GuiConfigs());
+            return true;
+        });
+
+        Configs.DROP_ALL.getKeybind().setCallback((action, key) -> {
+            DropHandler.getInstance().dropAllDummyItems();
+            return true;
+        });
+
+        Configs.ADD_HELD.getKeybind().setCallback((action, key) -> {
+            DropHandler.getInstance().addHeldItem();
+            return true;
+        });
+
+        Configs.REMOVE_HELD.getKeybind().setCallback((action, key) -> {
+            DropHandler.getInstance().removeHeldItem();
+            return true;
+        });
+
+        Configs.TOGGLE_AUTO_DROP.getKeybind().setCallback((action, key) -> {
+            FeatureToggle.TWEAK_AUTO_DROP_DUMMY_ON_FULL.toggle();
+            return true;
+        });
+    }
+
+    public static InputHandler getInstance()
+    {
+        return INSTANCE;
+    }
+
+    @Override
+    public void addHotkeys(IKeybindManager manager)
+    {
+        manager.addHotkeysForCategory(Reference.MOD_NAME, "dropitems.hotkeys.category", getHotkeys());
+    }
+
+    @Override
+    public void addKeysToMap(IKeybindManager manager)
+    {
+        for (IHotkey hotkey : getHotkeys())
+        {
+            manager.addKeybindToMap(hotkey.getKeybind());
+        }
+    }
+
+    private static List<? extends IHotkey> getHotkeys()
+    {
+        return ImmutableList.of(Configs.OPEN_CONFIGS, Configs.DROP_ALL, Configs.ADD_HELD, Configs.REMOVE_HELD, Configs.TOGGLE_AUTO_DROP);
+    }
+}
