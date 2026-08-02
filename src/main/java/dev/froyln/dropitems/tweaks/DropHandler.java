@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.registry.Registries;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
@@ -157,6 +159,12 @@ public class DropHandler implements IClientTickHandler
         }
 
         PlayerInventory inventory = mc.player.getInventory();
+        boolean behind = FeatureToggle.TWEAK_DROP_ITEMS_BEHIND.isEnabled();
+
+        if (behind)
+        {
+            this.rotateYawServerSide(mc, 180.0F);
+        }
 
         for (Slot slot : mc.player.currentScreenHandler.slots)
         {
@@ -171,6 +179,24 @@ public class DropHandler implements IClientTickHandler
                 }
             }
         }
+
+        if (behind)
+        {
+            this.rotateYawServerSide(mc, -180.0F);
+        }
+    }
+
+    private void rotateYawServerSide(MinecraftClient mc, float delta)
+    {
+        ClientPlayNetworkHandler networkHandler = mc.getNetworkHandler();
+
+        if (mc.player == null || networkHandler == null)
+        {
+            return;
+        }
+
+        networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(
+                mc.player.getYaw() + delta, mc.player.getPitch(), mc.player.isOnGround()));
     }
 
     private boolean isInventoryFull(MinecraftClient mc)
