@@ -7,7 +7,7 @@ import fi.dy.masa.malilib.config.options.ConfigBoolean;
 
 public enum FeatureToggle
 {
-    TWEAK_AUTO_DROP_DUMMY_ON_FULL("autoDropDummyOnFull", true,
+    TWEAK_AUTO_DROP_DUMMY_ON_FULL("autoDropDummyOnFull", false,
             "Automatically drop all dummy items whenever the inventory becomes full.");
 
     private final ConfigBoolean config;

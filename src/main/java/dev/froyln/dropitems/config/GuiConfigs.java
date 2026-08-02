@@ -17,7 +17,7 @@ public class GuiConfigs extends GuiConfigsBase
 
     public GuiConfigs()
     {
-        super(10, 50, Reference.MOD_ID, null, "dropitems.gui.title");
+        super(10, 50, Reference.MOD_ID, null, "dropdummyitems.gui.title");
     }
 
     @Override
@@ -56,6 +56,9 @@ public class GuiConfigs extends GuiConfigsBase
             case HOTKEYS:
                 return ConfigOptionWrapper.createFor(Configs.getAllHotkeys());
 
+            case ALERTS:
+                return ConfigOptionWrapper.createFor(Collections.singletonList(Configs.ALERT_INVENTORY_FULL));
+
             default:
                 return ConfigOptionWrapper.createFor(FeatureToggle.getToggles());
         }
@@ -85,9 +88,10 @@ public class GuiConfigs extends GuiConfigsBase
 
     public enum ConfigGuiTab
     {
-        TWEAKS ("dropitems.gui.tab.tweaks"),
-        LISTS  ("dropitems.gui.tab.lists"),
-        HOTKEYS("dropitems.gui.tab.hotkeys");
+        TWEAKS ("dropdummyitems.gui.tab.tweaks"),
+        LISTS  ("dropdummyitems.gui.tab.lists"),
+        HOTKEYS("dropdummyitems.gui.tab.hotkeys"),
+        ALERTS ("dropdummyitems.gui.tab.alerts");
 
         private final String translationKey;
 

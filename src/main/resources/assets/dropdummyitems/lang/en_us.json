@@ -1,0 +1,13 @@
+{
+	"dropdummyitems.gui.title": "DropDummyItems Settings",
+	"dropdummyitems.gui.tab.tweaks": "Tweaks",
+	"dropdummyitems.gui.tab.lists": "Lists",
+	"dropdummyitems.gui.tab.hotkeys": "Hotkeys",
+	"dropdummyitems.gui.tab.alerts": "Alerts",
+	"dropdummyitems.hotkeys.category": "DropDummyItems",
+	"dropdummyitems.hotkey.drop_all": "Dropped all dummy items",
+	"dropdummyitems.hotkey.add_held": "Added %s to dummy items",
+	"dropdummyitems.hotkey.remove_held": "Removed %s from dummy items",
+	"dropdummyitems.hotkey.toggle_auto_drop": "Auto-drop on full: %s",
+	"dropdummyitems.alert.inventory_full": "Inventory full!"
+}

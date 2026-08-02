@@ -1,8 +1,8 @@
 {
 	"schemaVersion": 1,
-	"id": "dropitems",
+	"id": "dropdummyitems",
 	"version": "${version}",
-	"name": "DropShitItems",
+	"name": "DropDummyItems",
 	"description": "Configure a list of junk items and drop them all at once, or automatically whenever your inventory fills up.",
 	"authors": [
 		"froyln"

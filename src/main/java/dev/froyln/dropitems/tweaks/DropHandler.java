@@ -13,6 +13,7 @@ import net.minecraft.util.Identifier;
 
 import fi.dy.masa.malilib.config.ConfigManager;
 import fi.dy.masa.malilib.interfaces.IClientTickHandler;
+import fi.dy.masa.malilib.util.InfoUtils;
 
 import dev.froyln.dropitems.Reference;
 import dev.froyln.dropitems.config.Configs;
@@ -22,6 +23,8 @@ public class DropHandler implements IClientTickHandler
 {
     private static final DropHandler INSTANCE = new DropHandler();
 
+    private boolean wasInventoryFull = false;
+
     public static DropHandler getInstance()
     {
         return INSTANCE;
@@ -30,7 +33,22 @@ public class DropHandler implements IClientTickHandler
     @Override
     public void onClientTick(MinecraftClient mc)
     {
-        if (FeatureToggle.TWEAK_AUTO_DROP_DUMMY_ON_FULL.isEnabled() && this.isInventoryFull(mc))
+        if (mc.player == null)
+        {
+            this.wasInventoryFull = false;
+            return;
+        }
+
+        boolean full = this.isInventoryFull(mc);
+
+        if (full && this.wasInventoryFull == false && Configs.ALERT_INVENTORY_FULL.getBooleanValue())
+        {
+            InfoUtils.printActionbarMessage("dropdummyitems.alert.inventory_full");
+        }
+
+        this.wasInventoryFull = full;
+
+        if (full && FeatureToggle.TWEAK_AUTO_DROP_DUMMY_ON_FULL.isEnabled())
         {
             this.dropDummyItems(mc);
         }
@@ -48,27 +66,27 @@ public class DropHandler implements IClientTickHandler
         this.dropDummyItems(mc);
     }
 
-    public void addHeldItem()
+    public String addHeldItem()
     {
         MinecraftClient mc = MinecraftClient.getInstance();
 
         if (mc.player == null)
         {
-            return;
+            return null;
         }
 
         ItemStack held = mc.player.getMainHandStack();
 
         if (held.isEmpty())
         {
-            return;
+            return null;
         }
 
         Identifier id = Registries.ITEM.getId(held.getItem());
 
         if (id == null)
         {
-            return;
+            return null;
         }
 
         List<String> strings = new ArrayList<>(Configs.DUMMY_ITEMS.getStrings());
@@ -76,55 +94,57 @@ public class DropHandler implements IClientTickHandler
 
         if (strings.contains(entry))
         {
-            return;
+            return null;
         }
 
         strings.add(entry);
         Configs.DUMMY_ITEMS.setStrings(strings);
         ConfigManager.getInstance().onConfigsChanged(Reference.MOD_ID);
+
+        return entry;
     }
 
-    public void removeHeldItem()
+    public String removeHeldItem()
     {
         MinecraftClient mc = MinecraftClient.getInstance();
 
         if (mc.player == null)
         {
-            return;
+            return null;
         }
 
         ItemStack held = mc.player.getMainHandStack();
 
         if (held.isEmpty())
         {
-            return;
+            return null;
         }
 
         Identifier id = Registries.ITEM.getId(held.getItem());
 
         if (id == null)
         {
-            return;
+            return null;
         }
 
         List<String> strings = new ArrayList<>(Configs.DUMMY_ITEMS.getStrings());
-        strings.removeIf(s -> id.equals(Identifier.tryParse(s)));
+        String removed = strings.stream()
+                .filter(s -> id.equals(Identifier.tryParse(s)))
+                .findFirst().orElse(null);
 
-        if (strings.equals(Configs.DUMMY_ITEMS.getStrings()) == false)
+        if (removed != null)
         {
+            strings.removeIf(s -> id.equals(Identifier.tryParse(s)));
             Configs.DUMMY_ITEMS.setStrings(strings);
             ConfigManager.getInstance().onConfigsChanged(Reference.MOD_ID);
         }
+
+        return removed;
     }
 
     private void dropDummyItems(MinecraftClient mc)
     {
         if (mc.player == null || mc.interactionManager == null || mc.player.currentScreenHandler == null)
-        {
-            return;
-        }
-
-        if (mc.player.currentScreenHandler.syncId != 0)
         {
             return;
         }
@@ -155,7 +175,7 @@ public class DropHandler implements IClientTickHandler
 
     private boolean isInventoryFull(MinecraftClient mc)
     {
-        if (mc.player == null || mc.player.currentScreenHandler == null || mc.player.currentScreenHandler.syncId != 0)
+        if (mc.player == null)
         {
             return false;
         }
