@@ -44,12 +44,12 @@ All code lives under `src/main/java/dev/froyln/dropitems/`:
 
 ## How it works (DropHandler)
 
-- `onClientTick` runs every client tick: fires a pending manual drop, and — when the
-  `TWEAK_AUTO_DROP_DUMMY_ON_FULL` toggle is on and `isInventoryFull()` — auto-drops.
+- `onClientTick` runs every client tick: when the `TWEAK_AUTO_DROP_DUMMY_ON_FULL` toggle is on
+  and `isInventoryFull()`, it auto-drops.
 - Drops are performed by `clickSlot(0, slot.id, 1, SlotActionType.THROW, ...)` on the
-  **player's own inventory screen handler (`syncId == 0`)** — the code guards on this, and
-  `dropAllDummyItems()` opens a fresh `InventoryScreen` and defers the drop to the next tick
-  (`manualDropPending`) so the syncId is valid.
+  **player's own inventory screen handler (`syncId == 0`)** — the code guards on this.
+  The `PlayerScreenHandler` keeps syncId 0 both open and closed, so `dropAllDummyItems()`
+  drops immediately on the hotkey press without opening any screen.
 - Only main + hotbar slots are considered (`slot.inventory == playerInventory && index < 36`);
   armor/offhand are never touched.
 - `DUMMY_ITEMS` entries are `Identifier` strings (`minecraft:dirt`); parsed with

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
@@ -23,8 +22,6 @@ public class DropHandler implements IClientTickHandler
 {
     private static final DropHandler INSTANCE = new DropHandler();
 
-    private boolean manualDropPending;
-
     public static DropHandler getInstance()
     {
         return INSTANCE;
@@ -33,12 +30,6 @@ public class DropHandler implements IClientTickHandler
     @Override
     public void onClientTick(MinecraftClient mc)
     {
-        if (this.manualDropPending)
-        {
-            this.manualDropPending = false;
-            this.dropDummyItems(mc);
-        }
-
         if (FeatureToggle.TWEAK_AUTO_DROP_DUMMY_ON_FULL.isEnabled() && this.isInventoryFull(mc))
         {
             this.dropDummyItems(mc);
@@ -54,13 +45,7 @@ public class DropHandler implements IClientTickHandler
             return;
         }
 
-        if (mc.player.currentScreenHandler.syncId != 0)
-        {
-            return;
-        }
-
-        mc.setScreen(new InventoryScreen(mc.player));
-        this.manualDropPending = true;
+        this.dropDummyItems(mc);
     }
 
     public void addHeldItem()
