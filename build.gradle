@@ -21,7 +21,7 @@ dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	modImplementation "fi.dy.masa.malilib:malilib-fabric-1.21.0:${project.malilib_version}"
+	modImplementation "fi.dy.masa.malilib:malilib-fabric-1.20.1:${project.malilib_version}"
 }
 
 processResources {
@@ -33,7 +33,7 @@ processResources {
 	}
 }
 
-def targetJavaVersion = 21
+def targetJavaVersion = 17
 tasks.withType(JavaCompile).configureEach {
 	it.options.encoding = "UTF-8"
 	it.options.release.set(targetJavaVersion)

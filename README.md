@@ -4,7 +4,7 @@
 
 **Fabric mod that keeps a list of dummy items and throws them all away with a single keybind — or automatically whenever your inventory is full.**
 
-[![Minecraft](https://img.shields.io/badge/Minecraft-1.21-62B47D?logo=minecraft&logoColor=white)](https://www.minecraft.net/)
+[![Minecraft](https://img.shields.io/badge/Minecraft-1.20.1-62B47D?logo=minecraft&logoColor=white)](https://www.minecraft.net/)
 [![Fabric](https://img.shields.io/badge/Fabric%20Loader-0.19.3%2B-87CEEB?logo=fabric&logoColor=white)](https://fabricmc.net/)
 [![Java](https://img.shields.io/badge/Java-21%2B-ED8B00?logo=java&logoColor=white)](https://www.java.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -27,10 +27,10 @@ When you dig a perimeter, most of what comes out is stone you don't want. You pi
 
 ## Requirements
 
-- [Java](https://www.java.com/) 21 or higher
-- [Minecraft](https://www.minecraft.net/) 1.21
+- [Java](https://www.java.com/) 17 or higher
+- [Minecraft](https://www.minecraft.net/) 1.20.1
 - [Fabric Loader](https://fabricmc.net/) 0.15.11 or higher
-- [malilib](https://modrinth.com/mod/malilib) 0.20.2 or higher
+- [malilib](https://modrinth.com/mod/malilib) 0.16.2 or higher
 
 ## Installation
 
@@ -62,14 +62,14 @@ Press `X + V` (default) to open the settings screen. From there you can edit the
 
 ## Dependencies
 
-- [malilib](https://masa.dy.fi) 0.20.2 or higher
+- [malilib](https://masa.dy.fi) 0.16.2 or higher
 - Fabric Loader 0.15.11 or higher
 
 The mod does not require Fabric API.
 
 ## Building from Source
 
-Requires Java 21 or higher (Gradle is downloaded automatically by `gradlew`).
+Requires Java 17 or higher (Gradle is downloaded automatically by `gradlew`).
 
 ```bash
 ./gradlew clean build
