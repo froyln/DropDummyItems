@@ -30,7 +30,7 @@ When you dig a perimeter, most of what comes out is stone you don't want. You pi
 - [Java](https://www.java.com/) 21 or higher
 - [Minecraft](https://www.minecraft.net/) 1.21
 - [Fabric Loader](https://fabricmc.net/) 0.15.11 or higher
-- [malilib](https://masa.dy.fi) 0.20.2 or higher
+- [malilib](https://modrinth.com/mod/malilib) 0.20.2 or higher
 
 ## Installation
 
