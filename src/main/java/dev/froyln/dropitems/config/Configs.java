@@ -38,7 +38,7 @@ public class Configs
 
     public static List<IConfigBase> getAllHotkeys()
     {
-        return ImmutableList.of(OPEN_CONFIGS, DROP_ALL, ADD_HELD, REMOVE_HELD, TOGGLE_AUTO_DROP);
+        return List.of(OPEN_CONFIGS, DROP_ALL, ADD_HELD, REMOVE_HELD, TOGGLE_AUTO_DROP);
     }
 
     public static List<IConfigBase> getAllConfigs()
