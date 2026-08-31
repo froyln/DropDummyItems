@@ -196,7 +196,8 @@ public class DropHandler implements IClientTickHandler
         }
 
         networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(
-                mc.player.getYaw() + delta, mc.player.getPitch(), mc.player.isOnGround()));
+                mc.player.getYaw() + delta, mc.player.getPitch(), mc.player.isOnGround(),
+                mc.player.horizontalCollision));
     }
 
     private boolean isInventoryFull(MinecraftClient mc)
@@ -206,7 +207,7 @@ public class DropHandler implements IClientTickHandler
             return false;
         }
 
-        for (ItemStack stack : mc.player.getInventory().main)
+        for (ItemStack stack : mc.player.getInventory().getMainStacks())
         {
             if (stack.isEmpty())
             {
