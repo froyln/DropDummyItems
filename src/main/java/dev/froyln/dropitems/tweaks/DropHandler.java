@@ -186,7 +186,7 @@ public class DropHandler implements IClientTickHandler
         }
     }
 
-    private void rotateYawServerSide(MinecraftClient mc, float delta)
+    public static void rotateYawServerSide(MinecraftClient mc, float delta)
     {
         ClientPlayNetworkHandler networkHandler = mc.getNetworkHandler();
 

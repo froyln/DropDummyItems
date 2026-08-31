@@ -10,7 +10,9 @@ public enum FeatureToggle
     TWEAK_AUTO_DROP_DUMMY_ON_FULL("autoDropDummyOnFull", false,
             "Automatically drop all dummy items whenever the inventory becomes full."),
     TWEAK_DROP_ITEMS_BEHIND("dropItemsBehind", false,
-            "Drop dummy items behind you (180 degrees from your current view) instead of in front.");
+            "Drop dummy items behind you (180 degrees from your current view) instead of in front."),
+    TWEAK_DROP_CRAFTED_BEHIND("dropCraftedItemsBehind", false,
+            "Drop items behind you (180 degrees from your current view) when they are thrown from a crafting result slot, e.g. Item Scroller mass crafting.");
 
     private final ConfigBoolean config;
 
