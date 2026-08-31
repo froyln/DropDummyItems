@@ -1,0 +1,11 @@
+{
+	"required": true,
+	"package": "dev.froyln.dropitems.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"client": [
+		"MixinClientPlayerInteractionManager"
+	]
+}
