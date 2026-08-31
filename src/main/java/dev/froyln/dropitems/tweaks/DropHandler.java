@@ -196,7 +196,8 @@ public class DropHandler implements IClientTickHandler
         }
 
         networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(
-                mc.player.getYaw() + delta, mc.player.getPitch(), mc.player.isOnGround()));
+                mc.player.getYaw() + delta, mc.player.getPitch(), mc.player.isOnGround(),
+                mc.player.horizontalCollision));
     }
 
     private boolean isInventoryFull(MinecraftClient mc)
