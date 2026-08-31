@@ -2,8 +2,6 @@ package dev.froyln.dropitems.event;
 
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
-
 import net.minecraft.client.MinecraftClient;
 
 import fi.dy.masa.malilib.hotkeys.IHotkey;
@@ -19,8 +17,6 @@ import dev.froyln.dropitems.tweaks.DropHandler;
 
 public class InputHandler implements IKeybindProvider
 {
-    private static final InputHandler INSTANCE = new InputHandler();
-
     public InputHandler()
     {
         Configs.OPEN_CONFIGS.getKeybind().setCallback((action, key) -> {
@@ -64,11 +60,6 @@ public class InputHandler implements IKeybindProvider
         });
     }
 
-    public static InputHandler getInstance()
-    {
-        return INSTANCE;
-    }
-
     @Override
     public void addHotkeys(IKeybindManager manager)
     {
@@ -86,6 +77,6 @@ public class InputHandler implements IKeybindProvider
 
     private static List<? extends IHotkey> getHotkeys()
     {
-        return ImmutableList.of(Configs.OPEN_CONFIGS, Configs.DROP_ALL, Configs.ADD_HELD, Configs.REMOVE_HELD, Configs.TOGGLE_AUTO_DROP);
+        return List.of(Configs.OPEN_CONFIGS, Configs.DROP_ALL, Configs.ADD_HELD, Configs.REMOVE_HELD, Configs.TOGGLE_AUTO_DROP);
     }
 }
