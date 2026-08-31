@@ -20,8 +20,8 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.15.11",
-		"minecraft": "~1.21",
-		"malilib": ">=0.20.2"
+		"minecraft": ">=1.21.6 <=1.21.8",
+		"malilib": ">=0.25.7"
 	},
 	"suggests": {
 		"itemscroller": "*"
