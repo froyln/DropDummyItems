@@ -5,3 +5,5 @@ run/
 *.iml
 .vscode/
 PLAN.md
+dist/
+.build-worktrees/
