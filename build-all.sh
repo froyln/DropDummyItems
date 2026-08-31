@@ -6,7 +6,7 @@ set -e
 
 mkdir -p dist
 
-for branch in main 1.20.1; do
+for branch in main 1.21.2 1.21.4 1.21.5 1.21.6 1.21.9 1.21.11 1.20.1; do
     wt=".build-worktrees/$branch"
     git worktree add -f "$wt" "$branch"
 
