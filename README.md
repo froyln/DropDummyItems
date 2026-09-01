@@ -4,9 +4,9 @@
 
 **Fabric mod that keeps a list of dummy items and throws them all away with a single keybind — or automatically whenever your inventory is full.**
 
-[![Minecraft](https://img.shields.io/badge/Minecraft-1.21-62B47D?logo=minecraft&logoColor=white)](https://www.minecraft.net/)
+[![Minecraft](https://img.shields.io/badge/Minecraft-26.1%20--%2026.1.2-62B47D?logo=minecraft&logoColor=white)](https://www.minecraft.net/)
 [![Fabric](https://img.shields.io/badge/Fabric%20Loader-0.19.3%2B-87CEEB?logo=fabric&logoColor=white)](https://fabricmc.net/)
-[![Java](https://img.shields.io/badge/Java-21%2B-ED8B00?logo=java&logoColor=white)](https://www.java.com/)
+[![Java](https://img.shields.io/badge/Java-25%2B-ED8B00?logo=java&logoColor=white)](https://www.java.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 </div>
@@ -27,10 +27,11 @@ When you dig a perimeter, most of what comes out is stone you don't want. You pi
 
 ## Requirements
 
-- [Java](https://www.java.com/) 21 or higher
-- [Minecraft](https://www.minecraft.net/) 1.21
+- [Java](https://www.java.com/) 25 or higher
+- [Minecraft](https://www.minecraft.net/) 26.1, 26.1.1, or 26.1.2
 - [Fabric Loader](https://fabricmc.net/) 0.15.11 or higher
-- [malilib](https://modrinth.com/mod/malilib) 0.20.2 or higher
+- [Fabric API](https://modrinth.com/mod/fabric-api) (required by malilib on this version)
+- [malilib](https://modrinth.com/mod/malilib) 0.28.11 or higher
 
 ## Installation
 
@@ -62,14 +63,13 @@ Press `X + V` (default) to open the settings screen. From there you can edit the
 
 ## Dependencies
 
-- [malilib](https://masa.dy.fi) 0.20.2 or higher
+- [malilib](https://modrinth.com/mod/malilib) 0.28.11 or higher
 - Fabric Loader 0.15.11 or higher
-
-The mod does not require Fabric API.
+- Fabric API (required by malilib on this version)
 
 ## Building from Source
 
-Requires Java 21 or higher (Gradle is downloaded automatically by `gradlew`).
+Requires Java 25 or higher (Gradle is downloaded automatically by `gradlew`).
 
 ```bash
 ./gradlew clean build

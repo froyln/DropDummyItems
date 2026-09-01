@@ -5,63 +5,63 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerInteractionManager;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.slot.CraftingResultSlot;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.screen.slot.SlotActionType;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.MultiPlayerGameMode;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerInput;
+import net.minecraft.world.inventory.ResultSlot;
+import net.minecraft.world.inventory.Slot;
 
 import dev.froyln.dropitems.config.FeatureToggle;
 import dev.froyln.dropitems.tweaks.DropHandler;
 
-@Mixin(ClientPlayerInteractionManager.class)
+@Mixin(MultiPlayerGameMode.class)
 public class MixinClientPlayerInteractionManager
 {
-    @Inject(method = "clickSlot", at = @At("HEAD"))
-    private void dropdummyitems$beforeClickSlot(int syncId, int slotId, int button,
-            SlotActionType actionType, PlayerEntity player, CallbackInfo ci)
+    @Inject(method = "handleContainerInput", at = @At("HEAD"))
+    private void dropdummyitems$beforeHandleContainerInput(int containerId, int slotIndex, int button,
+            ContainerInput actionType, Player player, CallbackInfo ci)
     {
-        if (this.dropdummyitems$isCraftingResultThrow(slotId, actionType))
+        if (this.dropdummyitems$isCraftingResultThrow(slotIndex, actionType))
         {
-            DropHandler.rotateYawServerSide(MinecraftClient.getInstance(), 180.0F);
+            DropHandler.rotateYawServerSide(Minecraft.getInstance(), 180.0F);
         }
     }
 
-    @Inject(method = "clickSlot", at = @At("RETURN"))
-    private void dropdummyitems$afterClickSlot(int syncId, int slotId, int button,
-            SlotActionType actionType, PlayerEntity player, CallbackInfo ci)
+    @Inject(method = "handleContainerInput", at = @At("RETURN"))
+    private void dropdummyitems$afterHandleContainerInput(int containerId, int slotIndex, int button,
+            ContainerInput actionType, Player player, CallbackInfo ci)
     {
-        if (this.dropdummyitems$isCraftingResultThrow(slotId, actionType))
+        if (this.dropdummyitems$isCraftingResultThrow(slotIndex, actionType))
         {
-            DropHandler.rotateYawServerSide(MinecraftClient.getInstance(), -180.0F);
+            DropHandler.rotateYawServerSide(Minecraft.getInstance(), -180.0F);
         }
     }
 
-    private boolean dropdummyitems$isCraftingResultThrow(int slotId, SlotActionType actionType)
+    private boolean dropdummyitems$isCraftingResultThrow(int slotIndex, ContainerInput actionType)
     {
-        if (actionType != SlotActionType.THROW || FeatureToggle.TWEAK_DROP_CRAFTED_BEHIND.isEnabled() == false)
+        if (actionType != ContainerInput.THROW || FeatureToggle.TWEAK_DROP_CRAFTED_BEHIND.isEnabled() == false)
         {
             return false;
         }
 
-        MinecraftClient mc = MinecraftClient.getInstance();
+        Minecraft mc = Minecraft.getInstance();
 
-        if (mc.player == null || slotId < 0)
+        if (mc.player == null || slotIndex < 0)
         {
             return false;
         }
 
-        ScreenHandler screenHandler = mc.player.currentScreenHandler;
+        AbstractContainerMenu menu = mc.player.containerMenu;
 
-        if (screenHandler == null || slotId >= screenHandler.slots.size())
+        if (menu == null || slotIndex >= menu.slots.size())
         {
             return false;
         }
 
-        Slot slot = screenHandler.slots.get(slotId);
+        Slot slot = menu.slots.get(slotIndex);
 
-        return slot instanceof CraftingResultSlot;
+        return slot instanceof ResultSlot;
     }
 }
