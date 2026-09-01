@@ -3,15 +3,15 @@ package dev.froyln.dropitems.tweaks;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-import net.minecraft.registry.Registries;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.screen.slot.SlotActionType;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.ContainerInput;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 
 import fi.dy.masa.malilib.config.ConfigManager;
 import fi.dy.masa.malilib.interfaces.IClientTickHandler;
@@ -33,7 +33,7 @@ public class DropHandler implements IClientTickHandler
     }
 
     @Override
-    public void onClientTick(MinecraftClient mc)
+    public void onClientTick(Minecraft mc)
     {
         if (mc.player == null)
         {
@@ -58,9 +58,9 @@ public class DropHandler implements IClientTickHandler
 
     public void dropAllDummyItems()
     {
-        MinecraftClient mc = MinecraftClient.getInstance();
+        Minecraft mc = Minecraft.getInstance();
 
-        if (mc.player == null || mc.player.currentScreenHandler == null)
+        if (mc.player == null || mc.player.containerMenu == null)
         {
             return;
         }
@@ -70,21 +70,21 @@ public class DropHandler implements IClientTickHandler
 
     public String addHeldItem()
     {
-        MinecraftClient mc = MinecraftClient.getInstance();
+        Minecraft mc = Minecraft.getInstance();
 
         if (mc.player == null)
         {
             return null;
         }
 
-        ItemStack held = mc.player.getMainHandStack();
+        ItemStack held = mc.player.getMainHandItem();
 
         if (held.isEmpty())
         {
             return null;
         }
 
-        Identifier id = Registries.ITEM.getId(held.getItem());
+        Identifier id = BuiltInRegistries.ITEM.getKey(held.getItem());
 
         if (id == null)
         {
@@ -108,21 +108,21 @@ public class DropHandler implements IClientTickHandler
 
     public String removeHeldItem()
     {
-        MinecraftClient mc = MinecraftClient.getInstance();
+        Minecraft mc = Minecraft.getInstance();
 
         if (mc.player == null)
         {
             return null;
         }
 
-        ItemStack held = mc.player.getMainHandStack();
+        ItemStack held = mc.player.getMainHandItem();
 
         if (held.isEmpty())
         {
             return null;
         }
 
-        Identifier id = Registries.ITEM.getId(held.getItem());
+        Identifier id = BuiltInRegistries.ITEM.getKey(held.getItem());
 
         if (id == null)
         {
@@ -144,9 +144,9 @@ public class DropHandler implements IClientTickHandler
         return removed;
     }
 
-    private void dropDummyItems(MinecraftClient mc)
+    private void dropDummyItems(Minecraft mc)
     {
-        if (mc.player == null || mc.interactionManager == null || mc.player.currentScreenHandler == null)
+        if (mc.player == null || mc.gameMode == null || mc.player.containerMenu == null)
         {
             return;
         }
@@ -158,55 +158,56 @@ public class DropHandler implements IClientTickHandler
             return;
         }
 
-        PlayerInventory inventory = mc.player.getInventory();
+        Inventory inventory = mc.player.getInventory();
         boolean behind = FeatureToggle.TWEAK_DROP_ITEMS_BEHIND.isEnabled();
 
         if (behind)
         {
-            this.rotateYawServerSide(mc, 180.0F);
+            rotateYawServerSide(mc, 180.0F);
         }
 
-        for (Slot slot : mc.player.currentScreenHandler.slots)
+        for (Slot slot : mc.player.containerMenu.slots)
         {
             // Only the main + hotbar slots (index 0-35 in the player inventory); never armor/offhand
-            if (slot.inventory == inventory && slot.getIndex() < 36)
+            if (slot.container == inventory && slot.index < 36)
             {
-                ItemStack stack = slot.getStack();
+                ItemStack stack = slot.getItem();
 
                 if (stack.isEmpty() == false && this.isDummy(stack, dummyIds))
                 {
-                    mc.interactionManager.clickSlot(0, slot.id, 1, SlotActionType.THROW, mc.player);
+                    mc.gameMode.handleContainerInput(0, slot.index, 1, ContainerInput.THROW, mc.player);
                 }
             }
         }
 
         if (behind)
         {
-            this.rotateYawServerSide(mc, -180.0F);
+            rotateYawServerSide(mc, -180.0F);
         }
     }
 
-    public static void rotateYawServerSide(MinecraftClient mc, float delta)
+    public static void rotateYawServerSide(Minecraft mc, float delta)
     {
-        ClientPlayNetworkHandler networkHandler = mc.getNetworkHandler();
+        ClientPacketListener connection = mc.getConnection();
 
-        if (mc.player == null || networkHandler == null)
+        if (mc.player == null || connection == null)
         {
             return;
         }
 
-        networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(
-                mc.player.getYaw() + delta, mc.player.getPitch(), mc.player.isOnGround()));
+        connection.send(new ServerboundMovePlayerPacket.Rot(
+                mc.player.getYRot() + delta, mc.player.getXRot(), mc.player.onGround(),
+                mc.player.horizontalCollision));
     }
 
-    private boolean isInventoryFull(MinecraftClient mc)
+    private boolean isInventoryFull(Minecraft mc)
     {
         if (mc.player == null)
         {
             return false;
         }
 
-        for (ItemStack stack : mc.player.getInventory().main)
+        for (ItemStack stack : mc.player.getInventory().getNonEquipmentItems())
         {
             if (stack.isEmpty())
             {
@@ -236,7 +237,7 @@ public class DropHandler implements IClientTickHandler
 
     private boolean isDummy(ItemStack stack, List<Identifier> dummyIds)
     {
-        Identifier id = Registries.ITEM.getId(stack.getItem());
+        Identifier id = BuiltInRegistries.ITEM.getKey(stack.getItem());
 
         return id != null && dummyIds.contains(id);
     }

@@ -2,7 +2,7 @@ package dev.froyln.dropitems.event;
 
 import java.util.List;
 
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
 import fi.dy.masa.malilib.hotkeys.IHotkey;
 import fi.dy.masa.malilib.hotkeys.IKeybindManager;
@@ -20,7 +20,7 @@ public class InputHandler implements IKeybindProvider
     public InputHandler()
     {
         Configs.OPEN_CONFIGS.getKeybind().setCallback((action, key) -> {
-            MinecraftClient.getInstance().setScreen(new GuiConfigs());
+            Minecraft.getInstance().setScreen(new GuiConfigs());
             return true;
         });
 
