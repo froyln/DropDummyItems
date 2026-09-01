@@ -4,7 +4,7 @@
 
 **Fabric mod that keeps a list of dummy items and throws them all away with a single keybind — or automatically whenever your inventory is full.**
 
-[![Minecraft](https://img.shields.io/badge/Minecraft-26.1%20--%2026.1.2-62B47D?logo=minecraft&logoColor=white)](https://www.minecraft.net/)
+[![Minecraft](https://img.shields.io/badge/Minecraft-26.2-62B47D?logo=minecraft&logoColor=white)](https://www.minecraft.net/)
 [![Fabric](https://img.shields.io/badge/Fabric%20Loader-0.19.3%2B-87CEEB?logo=fabric&logoColor=white)](https://fabricmc.net/)
 [![Java](https://img.shields.io/badge/Java-25%2B-ED8B00?logo=java&logoColor=white)](https://www.java.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -25,13 +25,31 @@ When you dig a perimeter, most of what comes out is stone you don't want. You pi
 - Optional action bar message the moment your inventory becomes full.
 - Only touches your own inventory — armor and offhand are never dropped, and nothing is ever thrown out of a chest.
 
+## Other Minecraft versions
+
+`main` always tracks the newest supported Minecraft release. Older versions each live on
+their own branch:
+
+| Branch | Minecraft |
+| --- | --- |
+| `main` | 26.2 |
+| `26.1` | 26.1, 26.1.1, 26.1.2 |
+| `1.21` | 1.21, 1.21.1 |
+| `1.21.2` | 1.21.2, 1.21.3 |
+| `1.21.4` | 1.21.4 |
+| `1.21.5` | 1.21.5 |
+| `1.21.6` | 1.21.6, 1.21.7, 1.21.8 |
+| `1.21.9` | 1.21.9, 1.21.10 |
+| `1.21.11` | 1.21.11 |
+| `1.20.1` | 1.20.1 |
+
 ## Requirements
 
 - [Java](https://www.java.com/) 25 or higher
-- [Minecraft](https://www.minecraft.net/) 26.1, 26.1.1, or 26.1.2
+- [Minecraft](https://www.minecraft.net/) 26.2
 - [Fabric Loader](https://fabricmc.net/) 0.15.11 or higher
 - [Fabric API](https://modrinth.com/mod/fabric-api) (required by malilib on this version)
-- [malilib](https://modrinth.com/mod/malilib) 0.28.11 or higher
+- [malilib](https://modrinth.com/mod/malilib) 0.29.5 or higher
 
 ## Installation
 
@@ -63,7 +81,7 @@ Press `X + V` (default) to open the settings screen. From there you can edit the
 
 ## Dependencies
 
-- [malilib](https://modrinth.com/mod/malilib) 0.28.11 or higher
+- [malilib](https://modrinth.com/mod/malilib) 0.29.5 or higher
 - Fabric Loader 0.15.11 or higher
 - Fabric API (required by malilib on this version)
 

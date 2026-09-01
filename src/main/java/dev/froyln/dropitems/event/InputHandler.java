@@ -20,7 +20,7 @@ public class InputHandler implements IKeybindProvider
     public InputHandler()
     {
         Configs.OPEN_CONFIGS.getKeybind().setCallback((action, key) -> {
-            Minecraft.getInstance().setScreen(new GuiConfigs());
+            Minecraft.getInstance().setScreenAndShow(new GuiConfigs());
             return true;
         });
 

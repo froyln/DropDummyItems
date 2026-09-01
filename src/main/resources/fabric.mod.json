@@ -20,9 +20,9 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.15.11",
-		"minecraft": ">=26.1 <=26.1.2",
-		"malilib": ">=0.28.11",
-		"fabric-networking-api-v1": ">=6.3.0",
+		"minecraft": "~26.2",
+		"malilib": ">=0.29.5",
+		"fabric-networking-api-v1": ">=6.3.3",
 		"fabric-resource-loader-v1": "*"
 	},
 	"suggests": {
