@@ -19,9 +19,7 @@ repositories {
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	// No mappings dependency: Minecraft 26.1+ ships unobfuscated (official names already),
-	// and this is how Fabric's own template configures 26.x — Loom needs a build newer than
-	// the 1.17.20 stable release (hence the 1.17-SNAPSHOT plugin version below) to allow this.
+	// No mappings: Minecraft 26.1+ ships unobfuscated.
 	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	implementation "maven.modrinth:malilib:${project.malilib_version}"
 }

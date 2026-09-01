@@ -64,7 +64,18 @@ All code lives under `src/main/java/dev/froyln/dropitems/`:
 - `addHeldItem()` / `removeHeldItem()` mutate the dummy list from the held stack and call
   `ConfigManager.getInstance().onConfigsChanged(...)` to persist.
 
+## Commit rules
+
+- Never add `Co-Authored-By: Claude ...`, `Claude-Session: ...`, or any other AI-attribution
+  trailer to commit messages. Commit messages describe the change only.
+- Never mention the AI model, session, or tool used to make the change, in commits, code
+  comments, or docs.
+
 ## Conventions & gotchas
+
+- Comment sparingly: only when the WHY is non-obvious (a hidden constraint, a workaround, a
+  gotcha a reader would trip on). Don't add a comment that just restates what the code already
+  says.
 
 - Follow the malilib idioms used here: config classes as static fields, GUI built via
   `GuiConfigsBase` + `ButtonListener`, hotkey callbacks returning `true`.
